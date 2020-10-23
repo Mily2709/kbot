@@ -20,11 +20,16 @@ class Factura
     end
   
     def descuento()
-        subtotal()*@descuentos[@descuentos.select{|monto,tasa| subtotal()>=monto}.keys.max]
+        tasa= @descuentos[@descuentos.select{|monto,tasa| subtotal()>=monto}.keys.max].to_f
+        subtotal()*tasa
     end
 
     def impuesto()
         @impuestos[@estado][0]
+    end
+
+    def precioConDescuento()
+        return  subtotal()-descuento()
     end
 end
 
@@ -35,3 +40,4 @@ puts factura.printFactura()
 puts "Subtotal:  #{factura.subtotal}"
 puts "Descuento: #{factura.descuento}"
 puts "impuesto: #{factura.impuesto}"
+puts "Precio con Descuento:  #{factura.precioConDescuento}"
