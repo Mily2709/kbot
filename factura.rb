@@ -24,12 +24,17 @@ class Factura
         subtotal()*tasa
     end
 
-    def impuesto()
-        @impuestos[@estado][0]
-    end
-
     def precioConDescuento()
         return  subtotal()-descuento()
+    end
+
+    def impuesto()
+        precioConDescuento()*(@impuestos[@estado][0])
+    end
+
+
+    def total()
+        precioConDescuento()+impuesto()
     end
 end
 
@@ -39,5 +44,6 @@ puts factura.printImpuestosYDescuentos()
 puts factura.printFactura()
 puts "Subtotal:  #{factura.subtotal}"
 puts "Descuento: #{factura.descuento}"
-puts "impuesto: #{factura.impuesto}"
 puts "Precio con Descuento:  #{factura.precioConDescuento}"
+puts "impuesto: #{factura.impuesto}"
+puts "Total:  #{factura.total}"
