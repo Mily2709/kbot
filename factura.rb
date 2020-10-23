@@ -19,6 +19,9 @@ class Factura
         @cantidad*@precioUnitario
     end
   
+    def descuento()
+        subtotal()*@descuentos[@descuentos.select{|monto,tasa| subtotal()>=monto}.keys.max]
+    end
 end
 
 
@@ -26,3 +29,4 @@ factura = Factura.new(ARGV[0], ARGV[1], ARGV[2]);
 puts factura.printImpuestosYDescuentos()
 puts factura.printFactura()
 puts "Subtotal:  #{factura.subtotal}"
+puts "Descuento: #{factura.descuento}"
