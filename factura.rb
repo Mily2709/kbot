@@ -14,6 +14,10 @@ class Factura
     def printImpuestosYDescuentos()
         "impuestos: #{@impuestos} ,\nDescuentos: #{@descuentos} "
     end
+
+    def subtotal()
+        @cantidad*@precioUnitario
+    end
   
 end
 
@@ -21,3 +25,4 @@ end
 factura = Factura.new(ARGV[0], ARGV[1], ARGV[2]);
 puts factura.printImpuestosYDescuentos()
 puts factura.printFactura()
+puts "Subtotal:  #{factura.subtotal}"
