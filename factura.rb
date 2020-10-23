@@ -8,8 +8,16 @@ class Factura
         @precioUnitario = precioUnitario.to_f
     end
 
+    def cantidad
+        @cantidad
+    end 
+
+    def precio
+        @precioUnitario
+    end 
     def printFactura()
-        "Cantidad: #{@cantidad} ,  Precio unitario: #{@precioUnitario} , Tipo Impuesto:  #{@estado}"
+        "Cantidad".ljust(12)+ "Precio unitario".ljust(20)+"\n#{@cantidad}".ljust(12)+"#{@precioUnitario}".rjust(20)+
+        "\nTipo Impuesto: #{@estado}"
     end
     def printImpuestosYDescuentos()
         "impuestos: #{@impuestos} ,\nDescuentos: #{@descuentos} "
@@ -42,8 +50,9 @@ end
 factura = Factura.new(ARGV[0], ARGV[1], ARGV[2]);
 puts factura.printImpuestosYDescuentos()
 puts factura.printFactura()
-puts "Subtotal:  #{factura.subtotal}"
-puts "Descuento: #{factura.descuento}"
-puts "Precio con Descuento:  #{factura.precioConDescuento}"
-puts "impuesto: #{factura.impuesto}"
-puts "Total:  #{factura.total}"
+puts "Subtotal (#{factura.cantidad}*#{factura.precio}): #{factura.subtotal}".rjust(31)
+puts "Descuento: #{factura.descuento}".rjust(31)
+puts "Precio con Descuento:  #{factura.precioConDescuento}".rjust(31)
+puts "impuesto: #{factura.impuesto}".rjust(31)
+puts "Total:  #{factura.total}".rjust(31)
+
