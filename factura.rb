@@ -15,6 +15,7 @@ class Factura
     def precio
         @precioUnitario
     end 
+
     def printFactura()
         "Cantidad".ljust(12)+ "Precio unitario".ljust(20)+"\n#{@cantidad}".ljust(12)+"#{@precioUnitario}".rjust(20)+
         "\nTipo Impuesto: #{@estado}"
@@ -26,18 +27,24 @@ class Factura
     def subtotal()
         @cantidad*@precioUnitario
     end
-  
+
+    def porcentajeDescuento()
+        @descuentos[@descuentos.select{|monto,tasa| subtotal()>=monto}.keys.max].to_f
+    end
+
     def descuento()
-        tasa= @descuentos[@descuentos.select{|monto,tasa| subtotal()>=monto}.keys.max].to_f
-        subtotal()*tasa
+        subtotal()*porcentajeDescuento()
     end
 
     def precioConDescuento()
         return  subtotal()-descuento()
     end
-
+    
+    def porcentajeImpuesto
+        @impuestos[@estado][0]
+    end
     def impuesto()
-        precioConDescuento()*(@impuestos[@estado][0])
+        precioConDescuento()*(porcentajeImpuesto())
     end
 
 
@@ -50,9 +57,9 @@ end
 factura = Factura.new(ARGV[0], ARGV[1], ARGV[2]);
 puts factura.printImpuestosYDescuentos()
 puts factura.printFactura()
-puts "Subtotal (#{factura.cantidad}*#{factura.precio}): #{factura.subtotal}".rjust(31)
-puts "Descuento: #{factura.descuento}".rjust(31)
-puts "Precio con Descuento:  #{factura.precioConDescuento}".rjust(31)
-puts "impuesto: #{factura.impuesto}".rjust(31)
+puts "Subtotal (#{factura.cantidad} *$#{factura.precio}): #{factura.subtotal}".rjust(31)
+puts "Descuento (%#{factura.porcentajeDescuento}): #{factura.descuento}".rjust(31)
+puts "Precio con Descuento: #{factura.precioConDescuento}".rjust(31)
+puts "impuesto (%#{factura.porcentajeImpuesto}): #{factura.impuesto}".rjust(31)
 puts "Total:  #{factura.total}".rjust(31)
 
